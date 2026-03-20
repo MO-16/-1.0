@@ -6,8 +6,7 @@ import FluidBackground from './components/FluidBackground';
 import Results, { AnalysisResult } from './components/Results';
 import Uploader from './components/Uploader';
 
-// Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Initialize Gemini API inside the component to prevent crash on load if key is missing
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -33,6 +32,15 @@ export default function App() {
     setResult(null);
 
     try {
+      // Get API key from either process.env (AI Studio) or import.meta.env (Vercel)
+      const apiKey = process.env.GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
+      
+      if (!apiKey) {
+        throw new Error('مفتاح API غير موجود. تأكد من إضافته في إعدادات الاستضافة (GEMINI_API_KEY أو VITE_GEMINI_API_KEY).');
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
+
       const base64String = await fileToBase64(uploadedFile);
       const base64Data = base64String.split(',')[1];
       const mimeType = uploadedFile.type;
