@@ -92,7 +92,7 @@ export default function App() {
       console.error('Error analyzing image:', err);
       // Display the actual error message if available, otherwise fallback to generic
       const errorMessage = err?.message || 'معليش، صار خطأ واحنا نحلل التصميم. جرب مرة ثانية!';
-      setError(errorMessage);
+      setError(`خطأ: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
