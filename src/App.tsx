@@ -61,7 +61,7 @@ export default function App() {
 }`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.1-pro-preview',
+        model: 'gemini-3-flash-preview',
         contents: [
           {
             inlineData: {
@@ -91,7 +91,12 @@ export default function App() {
     } catch (err: any) {
       console.error('Error analyzing image:', err);
       // Display the actual error message if available, otherwise fallback to generic
-      const errorMessage = err?.message || 'معليش، صار خطأ واحنا نحلل التصميم. جرب مرة ثانية!';
+      let errorMessage = err?.message || 'معليش، صار خطأ واحنا نحلل التصميم. جرب مرة ثانية!';
+      
+      if (errorMessage.includes('429') || errorMessage.includes('Quota exceeded') || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+        errorMessage = 'خلصت باقة الاستخدام المجانية لمفتاح الـ API حقك (Quota Exceeded). جرب تستخدم مفتاح ثاني، أو تأكد من حسابك في Google AI Studio.';
+      }
+      
       setError(`خطأ: ${errorMessage}`);
     } finally {
       setLoading(false);
