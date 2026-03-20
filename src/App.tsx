@@ -47,7 +47,7 @@ export default function App() {
 
       const prompt = `
 أنت خبير تصميم واجهات وهويات بصرية نجدي، تتحدث بلهجة نجدية عفوية وودية.
-قم بتحليل هذا التصميم المرفق بدقة. ابحث في الويب عن تصاميم مشابهة في Dribbble و Behance.
+قم بتحليل هذا التصميم المرفق بدقة. اقترح تصاميم مشابهة يمكن البحث عنها في Dribbble و Behance.
 أريد النتيجة بصيغة JSON فقط (تأكد من وضعها داخل \`\`\`json و \`\`\`) تحتوي على:
 {
   "colors": ["#HEX1", "#HEX2", "#HEX3", "#HEX4"],
@@ -56,7 +56,7 @@ export default function App() {
   "layout": "وصف لتخطيط العناصر بلهجة نجدية",
   "advice": "نصيحة أخوية نجدية للمصمم عشان يطور هالتصميم أو يستلهم منه",
   "inspirationLinks": [
-    {"title": "عنوان التصميم المشابه", "url": "رابط التصميم من Dribbble أو Behance"}
+    {"title": "عنوان التصميم المشابه", "url": "كلمات مفتاحية للبحث في Dribbble أو Behance"}
   ]
 }`;
 
@@ -71,9 +71,6 @@ export default function App() {
           },
           { text: prompt },
         ],
-        config: {
-          tools: [{ googleSearch: {} }],
-        },
       });
 
       const text = response.text;
@@ -88,11 +85,14 @@ export default function App() {
         const data = JSON.parse(jsonMatch[1] || jsonMatch[0]) as AnalysisResult;
         setResult(data);
       } else {
-        throw new Error('Failed to parse JSON from response');
+        console.error('Failed to parse JSON:', text);
+        throw new Error('فشل في قراءة النتيجة من الذكاء الاصطناعي.');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error analyzing image:', err);
-      setError('معليش، صار خطأ واحنا نحلل التصميم. جرب مرة ثانية!');
+      // Display the actual error message if available, otherwise fallback to generic
+      const errorMessage = err?.message || 'معليش، صار خطأ واحنا نحلل التصميم. جرب مرة ثانية!';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
