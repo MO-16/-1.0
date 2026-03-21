@@ -56,7 +56,7 @@ export default function App() {
   "layout": "وصف لتخطيط العناصر بلهجة نجدية",
   "advice": "نصيحة أخوية نجدية للمصمم عشان يطور هالتصميم أو يستلهم منه",
   "inspirationLinks": [
-    {"title": "عنوان التصميم المشابه", "url": "كلمات مفتاحية للبحث في Dribbble أو Behance"}
+    {"title": "عنوان التصميم المشابه", "url": "https://dribbble.com/search/..."}
   ]
 }`;
 

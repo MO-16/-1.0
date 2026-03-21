@@ -19,6 +19,14 @@ interface ResultsProps {
 export default function Results({ result, imageUrl }: ResultsProps) {
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
 
+  const getHostname = (url: string) => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return 'رابط خارجي';
+    }
+  };
+
   const copyToClipboard = (color: string) => {
     navigator.clipboard.writeText(color);
     setCopiedColor(color);
@@ -65,7 +73,7 @@ export default function Results({ result, imageUrl }: ResultsProps) {
             <h3 className="text-xl font-semibold text-white">الألوان اللي تضبط معك</h3>
           </div>
           <div className="flex flex-wrap gap-4">
-            {result.colors.map((color, idx) => (
+            {(result.colors || []).map((color, idx) => (
               <button
                 key={idx}
                 onClick={() => copyToClipboard(color)}
@@ -96,7 +104,7 @@ export default function Results({ result, imageUrl }: ResultsProps) {
             <h3 className="text-xl font-semibold text-white">الخطوط المقترحة</h3>
           </div>
           <div className="flex flex-wrap gap-3">
-            {result.fonts.map((font, idx) => (
+            {(result.fonts || []).map((font, idx) => (
               <div key={idx} className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-gray-200">
                 {font}
               </div>
@@ -147,7 +155,7 @@ export default function Results({ result, imageUrl }: ResultsProps) {
             تغذية بصرية (روابط بتفيدك)
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {result.inspirationLinks.map((link, idx) => (
+            {(result.inspirationLinks || []).map((link, idx) => (
               <a
                 key={idx}
                 href={link.url}
@@ -159,7 +167,7 @@ export default function Results({ result, imageUrl }: ResultsProps) {
                   {link.title}
                 </h4>
                 <div className="flex items-center justify-between text-sm text-gray-500 group-hover:text-blue-400">
-                  <span className="truncate max-w-[80%]">{new URL(link.url).hostname}</span>
+                  <span className="truncate max-w-[80%]">{getHostname(link.url)}</span>
                   <ExternalLink className="w-4 h-4" />
                 </div>
               </a>
