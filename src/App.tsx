@@ -116,7 +116,7 @@ export default function App() {
       >
         <div className="inline-flex items-center justify-center p-3 mb-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl">
           <h1 className="text-4xl font-bold text-sky-400 drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]">
-            يا هلا و مرحبا نورت المُلهم يا معلم
+            يا هلا و مرحبا نورت المُلهم
           </h1>
         </div>
         <p className="text-xl text-gray-300 leading-relaxed font-medium">
